@@ -36,7 +36,7 @@ final class SignInWithEmailViewModel: ObservableObject {
 //        let authUser = try AuthenticationManager.shared.getAuthenticatedUser()
 //
 //        guard let userEmail = authUser.email else {
-//            throw AuthentificationError.emailNotFound
+//            throw AuthenticationError.emailNotFound
 //        }
         
         try await AuthenticationManager.shared.resetPassword(email: email)
