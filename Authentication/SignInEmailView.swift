@@ -92,7 +92,10 @@ struct SignInEmailView: View {
                             showingResetPasswordView = false
                         }
                     }
-                    .foregroundStyle(.yellow)
+                    .buttonStyle(.borderedProminent)
+                    .tint(.yellow)
+                    .foregroundColor(.black)
+                    .controlSize(.large)
                     .padding(.horizontal)
                     .presentationDetents([.medium, .large])
                     

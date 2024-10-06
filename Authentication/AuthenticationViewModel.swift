@@ -12,8 +12,7 @@ import SwiftUI
 
 @MainActor
 final class AuthenticationViewModel: ObservableObject {
-    let signInAppleHelper = SignInAppleHelper()
-    
+
     func signInWithGoogle() async throws {
         let helper = SignInGoogleHelper()
         let tokens = try await helper.signIn()
@@ -24,6 +23,10 @@ final class AuthenticationViewModel: ObservableObject {
         let helper = SignInAppleHelper()
         let tokens = try await helper.startSignInWithAppleFlow()
         try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
+    }
+    
+    func signInAnonymously() async throws {
+        try await AuthenticationManager.shared.signInAnonymous()
     }
 }
 

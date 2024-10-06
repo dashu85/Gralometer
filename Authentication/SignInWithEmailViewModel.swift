@@ -33,12 +33,12 @@ final class SignInWithEmailViewModel: ObservableObject {
     }
     
     func resetPassword(email: String) async throws {
-//        let authUser = try AuthenticationManager.shared.getAuthenticatedUser()
-//
-//        guard let userEmail = authUser.email else {
-//            throw AuthenticationError.emailNotFound
-//        }
+        let authUser = try AuthenticationManager.shared.getAuthenticatedUser()
+
+        guard let userEmail = authUser.email else {
+            throw AuthenticationError.emailNotFound
+        }
         
-        try await AuthenticationManager.shared.resetPassword(email: email)
+        try await AuthenticationManager.shared.resetPassword(email: userEmail)
     }
 }
