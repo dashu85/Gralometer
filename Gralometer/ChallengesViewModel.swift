@@ -1,5 +1,5 @@
 //
-//  ChallengeManager.swift
+//  ChallengesViewModel.swift
 //  Gralometer
 //
 //  Created by Marcus Benoit on 09.10.24.

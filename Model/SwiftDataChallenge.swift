@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class Challenge: Identifiable, Hashable, Codable {
+class SwiftDataChallenge: Identifiable, Hashable, Codable {
     @Attribute(.unique) var id: UUID?
     var title: String?
     var number: Int?
