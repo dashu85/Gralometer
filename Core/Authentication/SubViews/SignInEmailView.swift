@@ -29,9 +29,12 @@ struct SignInEmailView: View {
                 }
                 
                 TextField("Email...", text: $viewModel.email)
+                    .keyboardType(.emailAddress)
+                    .autocapitalization(.none)
                     .padding()
                     .background(Color.gray.opacity(0.4))
                     .cornerRadius(10)
+                
                 SecureField("Passwort...", text: $viewModel.password)
                     .padding()
                     .background(Color.gray.opacity(0.4))

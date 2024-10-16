@@ -43,24 +43,24 @@ struct AuthenticationView: View {
                     Divider()
                     
                     // SIGN IN WITH GOOGLE
-//                    Button("Sign in with Google") {
-//                        Task {
-//                            do {
-//                                try await viewModel.signInWithGoogle()
-//                                showSignInView = false
-//                            } catch {
-//                                print("Error signing in: \(error)")
-//                            }
-//                        }
-//                    }
-//                    .font(.headline)
-//                    .foregroundStyle(.white)
-//                    .frame(height: 55)
-//                    .frame(maxWidth: .infinity)
-//                    .background(.blue)
-//                    .cornerRadius(6)
-//                    .padding(.horizontal)
-//                    
+                    Button("Sign in with Google") {
+                        Task {
+                            do {
+                                try await viewModel.signInWithGoogle()
+                                showSignInView = false
+                            } catch {
+                                print("Error signing in: \(error)")
+                            }
+                        }
+                    }
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .frame(height: 55)
+                    .frame(maxWidth: .infinity)
+                    .background(.blue)
+                    .cornerRadius(6)
+                    .padding(.horizontal)
+                    
                     // SIGN IN WITH APPLE
 //                    Button(action: {
 //                        Task {
@@ -78,25 +78,25 @@ struct AuthenticationView: View {
 //                    .frame(height: 55)
 //                    .padding(.horizontal)
 //                    
-//                    Button {
-//                        Task {
-//                            do {
-//                                try await viewModel.signInAnonymously()
-//                                showSignInView = false
-//                            } catch {
-//                                print("Error signing in: \(error)")
-//                            }
-//                        }
-//                    } label: {
-//                        Text("Anonym einloggen")
-//                            .font(.title3.bold())
-//                            .foregroundStyle(.black)
-//                            .frame(height: 55)
-//                            .frame(maxWidth: .infinity)
-//                            .background(.orange)
-//                            .cornerRadius(6)
-//                    }
-//                    .padding(.horizontal)
+                    Button {
+                        Task {
+                            do {
+                                try await viewModel.signInAnonymously()
+                                showSignInView = false
+                            } catch {
+                                print("Error signing in: \(error)")
+                            }
+                        }
+                    } label: {
+                        Text("Anonym einloggen")
+                            .font(.title3.bold())
+                            .foregroundStyle(.black)
+                            .frame(height: 55)
+                            .frame(maxWidth: .infinity)
+                            .background(.orange)
+                            .cornerRadius(6)
+                    }
+                    .padding(.horizontal)
                     
                     NavigationLink {
                         SignInEmailView(showSignInView: $showSignInView)

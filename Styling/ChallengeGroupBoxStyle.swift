@@ -18,7 +18,7 @@ struct ChallengeGroupBoxStyle: GroupBoxStyle {
                 .foregroundStyle(.black)
             configuration.content
         }
-        .padding()
+        .padding(.horizontal)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
     }
 }

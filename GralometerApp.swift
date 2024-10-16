@@ -13,6 +13,7 @@ import SwiftUI
 @main
 struct GralometerApp: App {
     @Environment(\.modelContext) private var modelContext
+    @StateObject private var colorSchemeManager = ColorSchemeManager()
     
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -20,10 +21,11 @@ struct GralometerApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                ChallengeScrollView()
+                ChallengesView()
             }
+            .environmentObject(colorSchemeManager)
         }
-        .modelContainer(for: [Challenge.self, UserTest.self])
+        .modelContainer(for: [SwiftDataChallenge.self, UserTest.self])
     }
     
     // where is Backend data stored -> path where it is stored

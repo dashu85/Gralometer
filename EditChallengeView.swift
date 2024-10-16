@@ -24,7 +24,7 @@ struct EditChallengeView: View {
     
     @State private var animationStyle: Animation = .bouncy
     
-    @Bindable var challenge: Challenge
+    @Bindable var challenge: SwiftDataChallenge
     
     var body: some View {
         NavigationStack {
@@ -161,8 +161,8 @@ struct EditChallengeView: View {
 #Preview {
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: Challenge.self, configurations: config)
-        let challenge = Challenge(id: UUID(), title: "Bowling", number: 1909, date: .now, participants: [UserTest(id: UUID(), name: "Marcel", age: 39, challengesTakenPartIn: [])], place: "Brandenburg", challengeDescription: "Bowling spielen", type: "Normal", category: .geschickGames, numberOfParticipants: 2, status: .inProgress)
+        let container = try ModelContainer(for: SwiftDataChallenge.self, configurations: config)
+        let challenge = SwiftDataChallenge(id: UUID(), title: "Bowling", number: 1909, date: .now, participants: [UserTest(id: UUID(), name: "Marcel", age: 39, challengesTakenPartIn: [])], place: "Brandenburg", challengeDescription: "Bowling spielen", type: "Normal", category: .geschickGames, numberOfParticipants: 2, status: .inProgress)
         
         return EditChallengeView(challenge: challenge)
             .modelContainer(container)

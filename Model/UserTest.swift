@@ -14,7 +14,7 @@ class UserTest: Identifiable, Hashable, Codable {
     var id: UUID?
     var name: String?
     var age: Int?
-    var challengesTakenPartIn: [Challenge]? = []
+    var challengesTakenPartIn: [SwiftDataChallenge]? = []
     
     enum CodingKeys: CodingKey {
         case id
@@ -23,7 +23,7 @@ class UserTest: Identifiable, Hashable, Codable {
         case challengesTakenPartIn
     }
     
-    init(id: UUID? = nil, name: String? = nil, age: Int? = nil, challengesTakenPartIn: [Challenge]? = nil) {
+    init(id: UUID? = nil, name: String? = nil, age: Int? = nil, challengesTakenPartIn: [SwiftDataChallenge]? = nil) {
         self.id = id
         self.name = name
         self.age = age
@@ -35,7 +35,7 @@ class UserTest: Identifiable, Hashable, Codable {
         id = try container.decode(UUID.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
         age = try container.decode(Int.self, forKey: .age)
-        challengesTakenPartIn = try container.decode([Challenge].self, forKey: .challengesTakenPartIn)
+        challengesTakenPartIn = try container.decode([SwiftDataChallenge].self, forKey: .challengesTakenPartIn)
     }
         
     func encode(to encoder: Encoder) throws {

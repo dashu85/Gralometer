@@ -8,7 +8,7 @@
 import FirebaseAuth
 import Foundation
 
-struct AuthDataResultModel {
+struct AuthDataResultModel: Hashable {
     let uid: String
     let displayName: String?
     let email: String?

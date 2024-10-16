@@ -23,7 +23,9 @@ final class RegistrationWithEmailViewModel: ObservableObject {
         }
         
         // discardable result - if it is created, everything is fine and works
-        try await AuthenticationManager.shared.createUser(email: email, password: password)
+        let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
+        let user = DBUser(auth: authDataResult)
+        try await UserManager.shared.createNewUser(user: user)
     }
     
     // Email validation method using regex
