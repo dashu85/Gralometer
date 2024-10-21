@@ -26,6 +26,14 @@ struct ChallengesView: View {
                         } label: {
                             ChallengeGroupBoxView(challenge: challenge)
                         }
+                        
+                        if challenge == viewModel.challenges.last {
+                            ProgressView()
+                                .onAppear {
+                                    print("new Documents fetched!")
+                                    viewModel.getChallenges()
+                                }
+                        }
                     }
                 }
                 .refreshable {
@@ -39,7 +47,7 @@ struct ChallengesView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu("Sort", systemImage: viewModel.selectedSortingOrder?.rawValue ?? "none") {
                         ForEach(ChallengesViewModel.SortingOption.allCases, id: \.self) { sortingOrder in
-                            Button(sortingOrder.rawValue) {
+                            Button("", systemImage: sortingOrder.rawValue) {
                                 Task {
                                     try? await viewModel.sortingSelected(option: sortingOrder)
                                 }

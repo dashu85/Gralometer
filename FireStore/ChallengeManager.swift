@@ -13,7 +13,7 @@ struct ChallengeArray: Codable {
     let total, takenPartIn, skip: Int
 }
 
-struct Challenge: Identifiable, Codable {
+struct Challenge: Identifiable, Codable, Equatable {
     var id: String?
     let title: String?
     let number: Int?
@@ -76,6 +76,10 @@ struct Challenge: Identifiable, Codable {
         try container.encodeIfPresent(category, forKey: .category)
         try container.encodeIfPresent(numberOfParticipants, forKey: .numberOfParticipants)
     }
+    
+    static func ==(lhs: Challenge, rhs: Challenge) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 final class ChallengeManager {
@@ -101,45 +105,80 @@ final class ChallengeManager {
         try documentRef.setData(from: challengeWithID, merge: false)
     }
     
+    // get a single Challenge using the id
     func getChallenge(challengeId: String) async throws -> Challenge {
         try await challengeDocument(challengeId: challengeId).getDocument(as: Challenge.self)
     }
     
+//    // fetch all Documents of Challenges - IMPORTANT don't use it too often, too many requests.
+//    private func getAllChallenges() async throws -> [Challenge] {
+//        try await challengeCollection.getDocuments(as: Challenge.self)
+//    }
+//    
+//    private func getAllChallengesSortedByNumber(descending: Bool) async throws -> [Challenge] {
+//        try await challengeCollection
+//            .order(by: Challenge.CodingKeys.number.rawValue, descending: descending)
+//            .getDocuments(as: Challenge.self)
+//    }
+//    
+//    private func getAllChallengesFilteredByCategory(category: String) async throws -> [Challenge] {
+//        try await challengeCollection
+//            .whereField(Challenge.CodingKeys.category.rawValue, isEqualTo: category)
+//            .getDocuments(as: Challenge.self)
+//    }
+//    
+//    private func getAllChallengesFilteredByCategoryAndSorted(descending: Bool, category: String) async throws -> [Challenge] {
+//        try await challengeCollection
+//            .whereField(Challenge.CodingKeys.category.rawValue, isEqualTo: category)
+//            .order(by: Challenge.CodingKeys.number.rawValue, descending: descending)
+//            .getDocuments(as: Challenge.self)
+//    }
+    
     // fetch all Documents of Challenges - IMPORTANT don't use it too often, too many requests.
-    private func getAllChallenges() async throws -> [Challenge] {
-        try await challengeCollection.getDocuments(as: Challenge.self)
+    private func getAllChallengesQuery() -> Query {
+        challengeCollection
     }
     
-    private func getAllChallengesSortedByNumber(descending: Bool) async throws -> [Challenge] {
-        try await challengeCollection
+    private func getAllChallengesSortedByNumberQuery(descending: Bool) -> Query {
+        challengeCollection
             .order(by: Challenge.CodingKeys.number.rawValue, descending: descending)
-            .getDocuments(as: Challenge.self)
     }
     
-    private func getAllChallengesFilteredByCategory(category: String) async throws -> [Challenge] {
-        try await challengeCollection
+    private func getAllChallengesFilteredByCategoryQuery(category: String) -> Query {
+        challengeCollection
             .whereField(Challenge.CodingKeys.category.rawValue, isEqualTo: category)
-            .getDocuments(as: Challenge.self)
     }
     
-    private func getAllChallengesFilteredByCategoryAndSorted(descending: Bool, category: String) async throws -> [Challenge] {
-        try await challengeCollection
+    private func getAllChallengesFilteredByCategoryAndSortedQuery(descending: Bool, category: String) -> Query {
+        challengeCollection
             .whereField(Challenge.CodingKeys.category.rawValue, isEqualTo: category)
             .order(by: Challenge.CodingKeys.number.rawValue, descending: descending)
-            .getDocuments(as: Challenge.self)
     }
     
-    func getAllChallenges(categoryDescending descending: Bool?, forCategory category: String?) async throws -> [Challenge] {
+    func getAllChallenges(descending: Bool?, category: String?, count: Int, lastDocument: DocumentSnapshot?) async throws -> (challenges: [Challenge], lastDocument: DocumentSnapshot?) {
+        var query: Query = getAllChallengesQuery()
+        
         if let descending, let category {
-            return try await getAllChallengesFilteredByCategoryAndSorted(descending: descending, category: category)
+            query = getAllChallengesFilteredByCategoryAndSortedQuery(descending: descending, category: category)
         } else if let descending {
-            return try await getAllChallengesSortedByNumber(descending: descending)
+            query = getAllChallengesSortedByNumberQuery(descending: descending)
         } else if let category {
-            return try await getAllChallengesFilteredByCategory(category: category)
+            query = getAllChallengesFilteredByCategoryQuery(category: category)
         }
         
-        return try await getAllChallenges()
+        return try await query
+            .limit(to: count)
+            .startOptionally(afterDocument: lastDocument)
+            .getDocumentsWithSnapshot(as: Challenge.self)
     }
+    
+//    func getAllChallengesByNumber(count: Int, lastDocument: DocumentSnapshot?) async throws -> (challenges: [Challenge], lastDocument: DocumentSnapshot?) {
+//        try await challengeCollection
+//            .order(by: Challenge.CodingKeys.number.rawValue, descending: true)
+//            .limit(to: count)
+//            .startOptionally(afterDocument: lastDocument)
+//            .getDocumentsWithSnapshot(as: Challenge.self)
+//    }
     
     // TODO: finish func
     func updateChallenge(challengeId: String) async throws {
@@ -149,11 +188,32 @@ final class ChallengeManager {
 
 extension Query {
     // Generic function to fetch all documents - IMPORTANT: make sure how many documents its gonna get!
-    func getDocuments<T>(as T: T.Type) async throws -> [T] where T: Decodable {
+//    func getDocuments<T>(as T: T.Type) async throws -> [T] where T: Decodable {
+//        let snapShot = try await self.getDocuments()
+//        
+//        return try snapShot.documents.map({ document in
+//            try document.data(as: T.self)
+//        })
+//    }
+    
+    // Generic function to fetch all documents - IMPORTANT: make sure how many documents its gonna get!
+    func getDocuments<T>(as type: T.Type) async throws -> [T] where T: Decodable {
+        try await getDocumentsWithSnapshot(as: type).challenges
+    }
+    
+    // Generic function to fetch all documents - additionally to getDocuments it returns a snapshot for Pagination Query
+    func getDocumentsWithSnapshot<T>(as T: T.Type) async throws -> (challenges: [T], lastDocument: DocumentSnapshot?) where T: Decodable {
         let snapShot = try await self.getDocuments()
         
-        return try snapShot.documents.map({ document in
+        let challenges = try snapShot.documents.map({ document in
             try document.data(as: T.self)
         })
+        
+        return (challenges, snapShot.documents.last)
+    }
+//        .start(afterDocument: lastDocument)
+    func startOptionally(afterDocument lastDocument: DocumentSnapshot?) -> Query {
+        guard let lastDocument else { return self }
+        return self.start(afterDocument: lastDocument)
     }
 }

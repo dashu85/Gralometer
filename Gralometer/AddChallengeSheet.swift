@@ -20,20 +20,32 @@ struct AddChallengeSheet: View {
     @State private var place = ""
     @State private var challengeDescription = ""
     @State private var type = ""
-    @State private var category = ""
+    @State private var category = "Kein Filter"
     @State private var numberOfParticipants = 2
     
     var body: some View {
         ZStack {
-            Color.red.opacity(0.5)
+            Color.yellow.opacity(0.5)
             
-            VStack {
+            Form {
+                TextField("Nummber", value: $number, format: .number)
+                
                 TextField("Titel", text: $title)
+                
                 DatePicker("Date", selection: $date, displayedComponents: .date)
+                
                 TextField("Place", text: $place)
+                
                 TextField ("Description", text: $challengeDescription)
+                
                 TextField("Typ", text: $type)
-                TextField ("Kategorie", text: $category)
+                
+                Picker("Kategorie", selection: $category) {
+                    ForEach(ChallengesViewModel.CategoryOption.allCases, id: \.self) { category in
+                        Text(category.rawValue).tag(category.rawValue)
+                    }
+                }
+                
                 Picker ("Anzahl Teilnehmer", selection: $numberOfParticipants) {
                     ForEach (0..<11) { number in
                         Text("\(number)").tag (number)
@@ -54,6 +66,9 @@ struct AddChallengeSheet: View {
                     }
                     .buttonStyle(.bordered)
                 }
+            }
+            .onAppear {
+                number = viewModel.challenges.count + 1
             }
             .padding()
         }
