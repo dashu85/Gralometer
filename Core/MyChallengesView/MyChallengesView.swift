@@ -8,8 +8,64 @@
 import SwiftUI
 
 struct MyChallengesView: View {
+    @StateObject var viewModel = MyChallengesViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            ForEach(viewModel.myChallenges, id: \.id.self) { challenge in
+                ChallengeRowView(challenge: challenge, viewModel: viewModel)
+            }
+            
+            if viewModel.isLoading {
+                ProgressView()
+            }
+        }
+        .navigationTitle("Meine Challenges")
+        .onAppear {
+            viewModel.loadMoreChallenges()
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                SortingMenu(viewModel: viewModel)
+            }
+        }
+    }
+}
+
+struct ChallengeRowView: View {
+    let challenge: MyChallenge
+    @ObservedObject var viewModel: MyChallengesViewModel
+
+    var body: some View {
+        ChallengeGroupBoxViewBuilder(challengeDocumentId: challenge.challengeId)
+            .contextMenu {
+                Button("Remove Challenge to user") {
+                    viewModel.removeFromMyChallenges(challengesTakenPartInDocumentId: challenge.id)
+                }
+            }
+            .onAppear {
+                if challenge == viewModel.myChallenges.last {
+                    viewModel.loadMoreChallenges()
+                }
+            }
+    }
+}
+
+struct SortingMenu: View {
+    @ObservedObject var viewModel: MyChallengesViewModel
+
+    var body: some View {
+        Menu {
+            ForEach(MyChallengesViewModel.SortingOption.allCases, id: \.self) { sortingOrder in
+                Button(sortingOrder.rawValue) {
+                    Task {
+                        try? await viewModel.sortingSelected(option: sortingOrder)
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
+        }
     }
 }
 

@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct ChallengeGroupBoxViewBuilder: View {
+    
+    let challengeDocumentId: String
+    @State private var challenge: Challenge? = nil
+    
+    // only load the content when it is needed!
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            if let challenge {
+                ChallengeGroupBoxView(challenge: challenge)
+            }
+        }
+        .task {
+            self.challenge = try? await ChallengeManager.shared.getChallenge(challengeId: challengeDocumentId)
+        }
     }
 }
 
 #Preview {
-    ChallengeGroupBoxViewBuilder()
+    let colorSchemeManager = ColorSchemeManager()
+    
+    ChallengeGroupBoxViewBuilder(challengeDocumentId: "0AEXDq2usqU6iuJYI7WC")
+        .environment(colorSchemeManager)
 }

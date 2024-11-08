@@ -11,10 +11,16 @@ struct ChallengeGroupBoxView: View {
     @EnvironmentObject private var colorSchemeManager: ColorSchemeManager
     let challenge: Challenge
     
+    var groupBoxTitle: some View {
+        Text("\(String(challenge.number ?? 1909)) - \(challenge.title ?? "Ooopsie")")
+            .lineLimit(1)
+            .truncationMode(.tail)
+    }
+    
     var body: some View {
         VStack {
             ZStack {
-                GroupBox("#0\(String(challenge.number ?? 1909)) - \(challenge.title ?? "Ooopsie")") {
+                GroupBox(label: groupBoxTitle) {
                     GeometryReader { geometry in
                         ZStack {
                             Image("standardPhoto")

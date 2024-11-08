@@ -27,22 +27,28 @@ struct ChallengesView: View {
                             ChallengeDetailView(challenge: challenge)
                         } label: {
                             ChallengeGroupBoxView(challenge: challenge)
-                        }
-                        
-                        if challenge == viewModel.challenges.last {
-                            ProgressView()
-                                .onAppear {
-                                    print("new Documents fetched!")
-                                    viewModel.getChallenges()
+                                .contextMenu {
+                                    Button("Add Challenge to user") {
+                                        viewModel.addChallengeToUser(challengeId: challenge.id, challengeNumber: challenge.number!)
+                                    }
                                 }
                         }
+                        .onAppear {
+                            if challenge == viewModel.challenges.last {
+                                viewModel.getChallenges()
+                            }
+                        }
+                    }
+                    
+                    if viewModel.isLoading {
+                        ProgressView()
                     }
                 }
                 .refreshable {
-                        viewModel.getChallenges()
+                    viewModel.getChallenges()
                 }
             }
-            .navigationTitle("Challenges")
+            .navigationTitle("Alle Challenges")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu(viewModel.selectedSortingOrder?.rawValue ?? "none") {
@@ -57,7 +63,7 @@ struct ChallengesView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu("\(viewModel.selectedCategory?.rawValue ?? "None")") {
+                    Menu("", systemImage: "arrow.up.arrow.down") {
                         ForEach(ChallengesViewModel.CategoryOption.allCases, id: \.self) { filterCategory in
                             Button(filterCategory.rawValue) {
                                 Task {

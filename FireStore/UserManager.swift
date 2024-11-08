@@ -47,24 +47,6 @@ struct DBUser: Codable, Hashable {
         self.hasGral = hasGral
     }
     
-//    func toggleGralStatus() -> DBUser {
-//        let currentValue = hasGral ?? false
-//        
-//        return DBUser(
-//            userId: userId,
-//            isAnonymous: isAnonymous,
-//            displayName: displayName,
-//            email: email,
-//            photoUrl: photoUrl,
-//            dateCreated: dateCreated,
-//            hasGral: !currentValue)
-//    }
-    
-//    mutating func toggleGralStatus() {
-//        let currentValue = hasGral ?? false
-//        hasGral = !currentValue
-//    }
-    
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
         case isAnonymous = "is_anonymous"
@@ -102,74 +84,63 @@ final class UserManager {
     static let shared = UserManager()
     private init() { }
     
-    private let userCollection = Firestore.firestore().collection("users")
+    private let userCollection: CollectionReference = Firestore.firestore().collection("users")
+    private let challengeCollection: CollectionReference = Firestore.firestore().collection("challenges")
     
     private func userDocument(userId: String) -> DocumentReference {
         userCollection.document(userId)
     }
     
-//    private let encoder: Firestore.Encoder = {
-//        let encoder = Firestore.Encoder()
-//        encoder.keyEncodingStrategy = .convertToSnakeCase
-//        return encoder
-//    }()
-//    
-//    private let decoder: Firestore.Decoder = {
-//        let decoder = Firestore.Decoder()
-//        decoder.keyDecodingStrategy = .convertFromSnakeCase
-//        return decoder
-//    }()
+    // get the collection of "challenges_taken_part_in"
+    private func userChallengesTakenPartInCollectionRef(userId: String) -> CollectionReference {
+        userDocument(userId: userId).collection("challenges_taken_part_in")
+    }
+    
+    // get the document of a certain challenge taken part in
+    private func userChallengesTakenPartInDocument(userId: String, challengesTakenPartInDocumentId: String) -> DocumentReference {
+        userChallengesTakenPartInCollectionRef(userId: userId).document(challengesTakenPartInDocumentId)
+    }
+    
+    // get all myChallenges as array of MyChallenge
+    func getAllMyChallenges(userId: String) async throws -> [MyChallenge] {
+        let myChallenges = try await userChallengesTakenPartInCollectionRef(userId: userId)
+            .getDocuments(as: MyChallenge.self)
+        
+        return myChallenges
+    }
+    
+    /* Pagination Begin */
+    
+    func getMyChallengesPage(userId: String, limit: Int, lastDocument: DocumentSnapshot?) async throws -> ([MyChallenge], DocumentSnapshot?) {
+        var query = userChallengesTakenPartInCollectionRef(userId: userId)
+            .order(by: "challenge_number", descending: true)
+            .limit(to: limit)
+        
+        // Start after the last document, if it exists
+        if let lastDocument = lastDocument {
+            query = query.start(afterDocument: lastDocument)
+        }
+        
+        let snapshot = try await query.getDocuments()
+        
+        // Map documents to MyChallenge models
+        let challenges = snapshot.documents.compactMap { document in
+            try? document.data(as: MyChallenge.self)
+        }
+        
+        // Return challenges and the last document in this page
+        return (challenges, snapshot.documents.last)
+    }
+    
+    /* Pagination End */
     
     func createNewUser(user: DBUser) async throws {
         try userDocument(userId: user.userId).setData(from: user, merge: false)
     }
     
-//    func createNewUser(auth: AuthDataResultModel) async throws {
-//        var userData: [String: Any] = [
-//            "user_id" : auth.uid,
-//            "is_anonymous" : auth.isAnonymous,
-//            "date_created" : Timestamp(),
-//        ]
-//        
-//        if let displayName = auth.displayName {
-//            userData["display_name"] = displayName
-//        }
-//        
-//        if let email = auth.email {
-//            userData["email"] = email
-//        }
-//        
-//        if let photoUrl = auth.photoUrl {
-//            userData["photo_url"] = photoUrl
-//        }
-//        
-//        try await userDocument(userId: auth.uid).setData(userData, merge: false)
-//    }
-    
     func getUser(userId: String) async throws -> DBUser {
         try await userDocument(userId: userId).getDocument(as: DBUser.self)
     }
-    
-//    func getUser(userId: String) async throws -> DBUser {
-//        let snapShot = try await userDocument(userId: userId).getDocument()
-//        
-//        guard let data = snapShot.data(), let userId = data["user_id"] as? String else {
-//            throw AuthenticationError.userNotFound
-//        }
-//        
-//        let isAnonymous = data["is_anonymous"] as? Bool
-//        let dateCreated = data["date_created"] as? Date
-//        let displayName = data["display_name"] as? String
-//        let email = data["email"] as? String
-//        let photoUrl = data["photo_url"] as? String
-//        
-//        return DBUser(userId: userId, isAnonymous: isAnonymous, displayName: displayName, email: email, photoUrl: photoUrl, dateCreated: dateCreated)
-//    }
-    
-    // updates whole user
-//    func updateGralStatus(user: DBUser) async throws {
-//        try userDocument(userId: user.userId).setData(from: user, merge: true)
-//    }
     
     // updates has_Gral status only
     func updateGralStatus(userId: String, hasGral: Bool) async throws {
@@ -178,5 +149,62 @@ final class UserManager {
         ]
         
         try await userDocument(userId: userId).updateData(data)
+    }
+    
+    func addChallengeToUser(userId: String, challengeId: String, challengeNumber: Int) async throws {
+        let document = userChallengesTakenPartInCollectionRef(userId: userId).document()
+        let documentId = document.documentID
+        
+        let data: [String: Any] = [
+            MyChallenge.CodingKeys.id.rawValue: documentId,
+            MyChallenge.CodingKeys.challengeNumber.rawValue : challengeNumber,
+            MyChallenge.CodingKeys.challengeId.rawValue : challengeId,
+            MyChallenge.CodingKeys.lastUpdated.rawValue : Timestamp()
+        ]
+            
+        try await document.setData(data, merge: false)
+    }
+    
+    func removeChallengeFromUser(userId: String, challengesTakenPartInDocumentId: String) async throws {
+        let document = userChallengesTakenPartInDocument(userId: userId, challengesTakenPartInDocumentId: challengesTakenPartInDocumentId)
+        
+        try await userChallengesTakenPartInDocument(userId: userId, challengesTakenPartInDocumentId: document.documentID).delete()
+    }
+}
+
+struct MyChallenge: Codable, Equatable {
+    let id: String
+    let challengeNumber: Int
+    let challengeId: String
+    let lastUpdated: Date
+    
+    init(id: String, challengeNumber: Int, challengeId: String, lastUpdated: Date) {
+        self.id = id
+        self.challengeNumber = challengeNumber
+        self.challengeId = challengeId
+        self.lastUpdated = lastUpdated
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case challengeNumber = "challenge_number"
+        case challengeId = "challenge_id"
+        case lastUpdated = "last_updated"
+    }
+    
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.id, forKey: .id)
+        try container.encode(self.challengeNumber, forKey: .challengeNumber)
+        try container.encode(self.challengeId, forKey: .challengeId)
+        try container.encode(self.lastUpdated, forKey: .lastUpdated)
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.challengeNumber = try container.decode(Int.self, forKey: .challengeNumber)
+        self.challengeId = try container.decode(String.self, forKey: .challengeId)
+        self.lastUpdated = try container.decode(Date.self, forKey: .lastUpdated)
     }
 }

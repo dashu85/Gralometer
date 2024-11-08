@@ -8,13 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		2920AC8F2CA0977A006A2BE1 /* RegistrationEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2920AC8E2CA0977A006A2BE1 /* RegistrationEmailView.swift */; };
-		29226E012C9844E4002B6BA8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29226E002C9844E4002B6BA8 /* GoogleService-Info.plist */; };
 		29226E042C984687002B6BA8 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 29226E032C984687002B6BA8 /* FirebaseAnalytics */; };
 		29226E072C98584C002B6BA8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 29226E062C98584C002B6BA8 /* FirebaseAuth */; };
 		29226E0A2C9858D8002B6BA8 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29226E092C9858D8002B6BA8 /* AuthenticationView.swift */; };
 		29226E0C2C985A1F002B6BA8 /* SignInEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29226E0B2C985A1F002B6BA8 /* SignInEmailView.swift */; };
 		29226E0E2C985E90002B6BA8 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29226E0D2C985E90002B6BA8 /* AuthenticationManager.swift */; };
 		29226E102C99D26B002B6BA8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29226E0F2C99D26B002B6BA8 /* SettingsView.swift */; };
+		2927432A2CC8534900597D28 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292743292CC8534900597D28 /* TabBarView.swift */; };
+		2927432C2CC8535200597D28 /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2927432B2CC8535200597D28 /* TabBarViewModel.swift */; };
+		2939C4772CCAD9BE00E02014 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2939C4762CCAD9BE00E02014 /* RootView.swift */; };
+		2948A2AC2CD04B530032C43F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948A2AB2CD04B530032C43F /* ProfileView.swift */; };
+		2948A2B42CD054410032C43F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2948A2B32CD054410032C43F /* GoogleService-Info.plist */; };
+		2948A2B72CD254750032C43F /* MyChallengesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948A2B62CD254750032C43F /* MyChallengesView.swift */; };
+		2948A2B92CD254820032C43F /* MyChallengesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948A2B82CD254820032C43F /* MyChallengesViewModel.swift */; };
 		29682B4F2CA80F1F0035F251 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 29682B4E2CA80F1F0035F251 /* GoogleSignIn */; };
 		29682B512CA80F1F0035F251 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 29682B502CA80F1F0035F251 /* GoogleSignInSwift */; };
 		29682B552CA813820035F251 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29682B542CA813820035F251 /* Utilities.swift */; };
@@ -33,10 +39,11 @@
 		299174CE2CB71D1E00304472 /* ChallengesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299174CD2CB71D1E00304472 /* ChallengesViewModel.swift */; };
 		299174D52CB81F1400304472 /* AddChallengeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299174D42CB81F1400304472 /* AddChallengeSheet.swift */; };
 		299174D72CB85E6D00304472 /* ChallengeGroupBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299174D62CB85E6D00304472 /* ChallengeGroupBoxView.swift */; };
+		29920FE82CCF94CD00326715 /* json-challenges12To244.json in Resources */ = {isa = PBXBuildFile; fileRef = 29920FE72CCF94CD00326715 /* json-challenges12To244.json */; };
 		299B919D2CB31FDB00C03FE7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 299B919C2CB31FDB00C03FE7 /* FirebaseFirestore */; };
-		299B91A32CB3D4B700C03FE7 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299B91A22CB3D4B700C03FE7 /* ProfileView.swift */; };
 		299B91A52CB3D5F000C03FE7 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299B91A42CB3D5F000C03FE7 /* ProfileViewModel.swift */; };
 		299B91A72CB3FC2200C03FE7 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299B91A62CB3FC2200C03FE7 /* UserManager.swift */; };
+		29A708012CD45BAD002154AB /* ChallengeGroupBoxViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A708002CD45BAD002154AB /* ChallengeGroupBoxViewBuilder.swift */; };
 		29C656DB2C1D91EE0049C74C /* GralometerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C656DA2C1D91EE0049C74C /* GralometerApp.swift */; };
 		29C656DF2C1D91F00049C74C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29C656DE2C1D91F00049C74C /* Assets.xcassets */; };
 		29C656E32C1D91F00049C74C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29C656E22C1D91F00049C74C /* Preview Assets.xcassets */; };
@@ -50,11 +57,20 @@
 
 /* Begin PBXFileReference section */
 		2920AC8E2CA0977A006A2BE1 /* RegistrationEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationEmailView.swift; sourceTree = "<group>"; };
-		29226E002C9844E4002B6BA8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		29226E092C9858D8002B6BA8 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		29226E0B2C985A1F002B6BA8 /* SignInEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInEmailView.swift; sourceTree = "<group>"; };
 		29226E0D2C985E90002B6BA8 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		29226E0F2C99D26B002B6BA8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		292743292CC8534900597D28 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		2927432B2CC8535200597D28 /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
+		2939C4762CCAD9BE00E02014 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		2948A2AB2CD04B530032C43F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		2948A2AF2CD053EB0032C43F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2948A2B02CD053EB0032C43F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2948A2B12CD053EB0032C43F /* Screenshot 2024-10-29 at 00.12.16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2024-10-29 at 00.12.16.png"; sourceTree = "<group>"; };
+		2948A2B32CD054410032C43F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2948A2B62CD254750032C43F /* MyChallengesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengesView.swift; sourceTree = "<group>"; };
+		2948A2B82CD254820032C43F /* MyChallengesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengesViewModel.swift; sourceTree = "<group>"; };
 		29682B522CA80F720035F251 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29682B542CA813820035F251 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		29682B562CA824000035F251 /* SignInGoogleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInGoogleHelper.swift; sourceTree = "<group>"; };
@@ -72,9 +88,10 @@
 		299174CD2CB71D1E00304472 /* ChallengesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesViewModel.swift; sourceTree = "<group>"; };
 		299174D42CB81F1400304472 /* AddChallengeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChallengeSheet.swift; sourceTree = "<group>"; };
 		299174D62CB85E6D00304472 /* ChallengeGroupBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeGroupBoxView.swift; sourceTree = "<group>"; };
-		299B91A22CB3D4B700C03FE7 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		29920FE72CCF94CD00326715 /* json-challenges12To244.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "json-challenges12To244.json"; sourceTree = "<group>"; };
 		299B91A42CB3D5F000C03FE7 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		299B91A62CB3FC2200C03FE7 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		29A708002CD45BAD002154AB /* ChallengeGroupBoxViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeGroupBoxViewBuilder.swift; sourceTree = "<group>"; };
 		29C656D72C1D91EE0049C74C /* Gralometer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gralometer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29C656DA2C1D91EE0049C74C /* GralometerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GralometerApp.swift; sourceTree = "<group>"; };
 		29C656DE2C1D91F00049C74C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -124,18 +141,71 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
+		292743282CC8532C00597D28 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				292743292CC8534900597D28 /* TabBarView.swift */,
+				2927432B2CC8535200597D28 /* TabBarViewModel.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		29281A962C86FEE000C9F5A2 /* Styling */ = {
 			isa = PBXGroup;
 			children = (
+				299174D62CB85E6D00304472 /* ChallengeGroupBoxView.swift */,
+				29A708002CD45BAD002154AB /* ChallengeGroupBoxViewBuilder.swift */,
 				29C656E92C1D94530049C74C /* ChallengeGroupBoxStyle.swift */,
 			);
 			path = Styling;
+			sourceTree = "<group>";
+		};
+		2948A2A92CD0499D0032C43F /* ChallengesFeed */ = {
+			isa = PBXGroup;
+			children = (
+				299174CB2CB71B5200304472 /* ChallengesView.swift */,
+				299174CD2CB71D1E00304472 /* ChallengesViewModel.swift */,
+				2948A2AA2CD04A5D0032C43F /* SubViews */,
+			);
+			path = ChallengesFeed;
+			sourceTree = "<group>";
+		};
+		2948A2AA2CD04A5D0032C43F /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				29F7193D2C60D9B5003AD779 /* ChallengeDetailView.swift */,
+				29C656EF2C1D9DA50049C74C /* ChallengeCardView.swift */,
+				299174D42CB81F1400304472 /* AddChallengeSheet.swift */,
+				2980CE022C32EF920051E289 /* EditChallengeView.swift */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
+		2948A2B22CD053EB0032C43F /* Gralometer files */ = {
+			isa = PBXGroup;
+			children = (
+				2948A2AF2CD053EB0032C43F /* GoogleService-Info.plist */,
+				2948A2B02CD053EB0032C43F /* Info.plist */,
+				2948A2B12CD053EB0032C43F /* Screenshot 2024-10-29 at 00.12.16.png */,
+			);
+			path = "Gralometer files";
+			sourceTree = "<group>";
+		};
+		2948A2B52CD254560032C43F /* MyChallengesView */ = {
+			isa = PBXGroup;
+			children = (
+				2948A2B62CD254750032C43F /* MyChallengesView.swift */,
+				2948A2B82CD254820032C43F /* MyChallengesViewModel.swift */,
+			);
+			path = MyChallengesView;
 			sourceTree = "<group>";
 		};
 		29682B532CA8136B0035F251 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				29682B542CA813820035F251 /* Utilities.swift */,
+				297890C12C9D803300D350FA /* Errors.swift */,
+				29920FE72CCF94CD00326715 /* json-challenges12To244.json */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -161,6 +231,10 @@
 		299B919E2CB3D3E700C03FE7 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				2939C4762CCAD9BE00E02014 /* RootView.swift */,
+				292743282CC8532C00597D28 /* TabBar */,
+				2948A2B52CD254560032C43F /* MyChallengesView */,
+				2948A2A92CD0499D0032C43F /* ChallengesFeed */,
 				299B91A12CB3D4A000C03FE7 /* Profile */,
 				299B919F2CB3D40A00C03FE7 /* Settings */,
 				29226E082C9858CB002B6BA8 /* Authentication */,
@@ -191,7 +265,7 @@
 		299B91A12CB3D4A000C03FE7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				299B91A22CB3D4B700C03FE7 /* ProfileView.swift */,
+				2948A2AB2CD04B530032C43F /* ProfileView.swift */,
 				299B91A42CB3D5F000C03FE7 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
@@ -200,14 +274,12 @@
 		29C656CE2C1D91EE0049C74C = {
 			isa = PBXGroup;
 			children = (
+				2948A2B22CD053EB0032C43F /* Gralometer files */,
 				299174CF2CB71E9C00304472 /* FireStore */,
 				299B919E2CB3D3E700C03FE7 /* Core */,
 				29682B532CA8136B0035F251 /* Utilities */,
-				297890C12C9D803300D350FA /* Errors.swift */,
-				29C656DA2C1D91EE0049C74C /* GralometerApp.swift */,
 				29FD24F62C60D299003C6A80 /* Model */,
 				29C656D92C1D91EE0049C74C /* Gralometer */,
-				2980CE022C32EF920051E289 /* EditChallengeView.swift */,
 				29281A962C86FEE000C9F5A2 /* Styling */,
 				2980CE082C429AF20051E289 /* Extensions */,
 				29FD24F52C60D248003C6A80 /* AppData */,
@@ -227,17 +299,12 @@
 		29C656D92C1D91EE0049C74C /* Gralometer */ = {
 			isa = PBXGroup;
 			children = (
-				29F7193D2C60D9B5003AD779 /* ChallengeDetailView.swift */,
-				299174D62CB85E6D00304472 /* ChallengeGroupBoxView.swift */,
-				29C656EF2C1D9DA50049C74C /* ChallengeCardView.swift */,
+				29C656DA2C1D91EE0049C74C /* GralometerApp.swift */,
 				29682B522CA80F720035F251 /* Info.plist */,
 				29C656DE2C1D91F00049C74C /* Assets.xcassets */,
-				29226E002C9844E4002B6BA8 /* GoogleService-Info.plist */,
+				2948A2B32CD054410032C43F /* GoogleService-Info.plist */,
 				29C656E02C1D91F00049C74C /* Gralometer.entitlements */,
-				299174D42CB81F1400304472 /* AddChallengeSheet.swift */,
 				29C656E12C1D91F00049C74C /* Preview Content */,
-				299174CB2CB71B5200304472 /* ChallengesView.swift */,
-				299174CD2CB71D1E00304472 /* ChallengesViewModel.swift */,
 			);
 			path = Gralometer;
 			sourceTree = "<group>";
@@ -336,9 +403,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29920FE82CCF94CD00326715 /* json-challenges12To244.json in Resources */,
+				2948A2B42CD054410032C43F /* GoogleService-Info.plist in Resources */,
 				29C656E32C1D91F00049C74C /* Preview Assets.xcassets in Resources */,
 				29C656DF2C1D91F00049C74C /* Assets.xcassets in Resources */,
-				29226E012C9844E4002B6BA8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,27 +426,33 @@
 				299174D72CB85E6D00304472 /* ChallengeGroupBoxView.swift in Sources */,
 				29682B572CA824000035F251 /* SignInGoogleHelper.swift in Sources */,
 				2920AC8F2CA0977A006A2BE1 /* RegistrationEmailView.swift in Sources */,
+				29A708012CD45BAD002154AB /* ChallengeGroupBoxViewBuilder.swift in Sources */,
 				29C656F02C1D9DA50049C74C /* ChallengeCardView.swift in Sources */,
 				29717E882CAB1E08006A9DBE /* SignInAppleHelper.swift in Sources */,
 				29C656EE2C1D9CE60049C74C /* SwiftDataChallenge.swift in Sources */,
+				2948A2AC2CD04B530032C43F /* ProfileView.swift in Sources */,
 				2980CE032C32EF920051E289 /* EditChallengeView.swift in Sources */,
 				2980CE0A2C429B490051E289 /* ExtensionBinding.swift in Sources */,
 				29226E102C99D26B002B6BA8 /* SettingsView.swift in Sources */,
 				296A06D92CA9817D00FE622D /* RegistrationWithEmailViewModel.swift in Sources */,
 				299B91A52CB3D5F000C03FE7 /* ProfileViewModel.swift in Sources */,
 				29682B552CA813820035F251 /* Utilities.swift in Sources */,
+				2927432A2CC8534900597D28 /* TabBarView.swift in Sources */,
 				299B91A72CB3FC2200C03FE7 /* UserManager.swift in Sources */,
+				2939C4772CCAD9BE00E02014 /* RootView.swift in Sources */,
 				29226E0E2C985E90002B6BA8 /* AuthenticationManager.swift in Sources */,
 				299174C82CB6B3E600304472 /* ChallengeManager.swift in Sources */,
-				299B91A32CB3D4B700C03FE7 /* ProfileView.swift in Sources */,
 				29226E0C2C985A1F002B6BA8 /* SignInEmailView.swift in Sources */,
 				296A06D72CA980F800FE622D /* SignInWithEmailViewModel.swift in Sources */,
+				2948A2B92CD254820032C43F /* MyChallengesViewModel.swift in Sources */,
 				299174D52CB81F1400304472 /* AddChallengeSheet.swift in Sources */,
 				296A06D32CA97ED100FE622D /* SettingsViewModel.swift in Sources */,
 				29226E0A2C9858D8002B6BA8 /* AuthenticationView.swift in Sources */,
 				299174CC2CB71B5200304472 /* ChallengesView.swift in Sources */,
 				29F7193E2C60D9B5003AD779 /* ChallengeDetailView.swift in Sources */,
+				2948A2B72CD254750032C43F /* MyChallengesView.swift in Sources */,
 				296CFB502C1E1F66001E5D28 /* UserTest.swift in Sources */,
+				2927432C2CC8535200597D28 /* TabBarViewModel.swift in Sources */,
 				29FD24F42C60D23C003C6A80 /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

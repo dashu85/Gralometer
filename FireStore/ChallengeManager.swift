@@ -14,7 +14,7 @@ struct ChallengeArray: Codable {
 }
 
 struct Challenge: Identifiable, Codable, Equatable {
-    var id: String?
+    var id: String
     let title: String?
     let number: Int?
     let date: Date?
@@ -86,7 +86,7 @@ final class ChallengeManager {
     static let shared = ChallengeManager()
     private init() { }
     
-    private let challengeCollection = Firestore.firestore().collection("challenges")
+    private let challengeCollection: CollectionReference = Firestore.firestore().collection("challenges")
     
     private func challengeDocument(challengeId: String) -> DocumentReference {
         challengeCollection.document(challengeId)
@@ -96,6 +96,16 @@ final class ChallengeManager {
 //        try challengeDocument(challengeId: challenge.id).setData(from: challenge, merge: false)
         
         // Create a new document reference without specifying the document ID
+        let documentRef = challengeCollection.document()  // Firestore generates the ID
+        
+        var challengeWithID = challenge
+        challengeWithID.id = documentRef.documentID  // Assign the generated ID to the challenge
+        
+        // Now set the data in Firestore with the new ID
+        try documentRef.setData(from: challengeWithID, merge: false)
+    }
+    
+    func uploadChallenges(challenge: Challenge) async throws {
         let documentRef = challengeCollection.document()  // Firestore generates the ID
         
         var challengeWithID = challenge
@@ -172,14 +182,12 @@ final class ChallengeManager {
             .getDocumentsWithSnapshot(as: Challenge.self)
     }
     
-//    func getAllChallengesByNumber(count: Int, lastDocument: DocumentSnapshot?) async throws -> (challenges: [Challenge], lastDocument: DocumentSnapshot?) {
-//        try await challengeCollection
-//            .order(by: Challenge.CodingKeys.number.rawValue, descending: true)
-//            .limit(to: count)
-//            .startOptionally(afterDocument: lastDocument)
-//            .getDocumentsWithSnapshot(as: Challenge.self)
-//    }
-    
+    // get the number of documents of a challenge collection
+    func getAllChallengesCount() async throws -> Int {
+        try await challengeCollection
+            .aggregateCount()
+    }
+        
     // TODO: finish func
     func updateChallenge(challengeId: String) async throws {
        
@@ -211,9 +219,15 @@ extension Query {
         
         return (challenges, snapShot.documents.last)
     }
+    
 //        .start(afterDocument: lastDocument)
     func startOptionally(afterDocument lastDocument: DocumentSnapshot?) -> Query {
         guard let lastDocument else { return self }
         return self.start(afterDocument: lastDocument)
+    }
+    
+    func aggregateCount() async throws -> Int {
+        let snapShot = try await self.count.getAggregation(source: .server)
+        return Int(truncating: snapShot.count)
     }
 }
