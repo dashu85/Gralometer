@@ -134,6 +134,24 @@ final class UserManager {
     
     /* Pagination End */
     
+    /* Add Listener Begin */
+    
+    func addListenerForMyChallenges(userId: String, completion: @escaping (_ myChallenges: [MyChallenge]) -> Void) {
+        userChallengesTakenPartInCollectionRef(userId: userId).addSnapshotListener { querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("Error fetching documents: \(error!)")
+                return
+            }
+            
+            let myChallenges = documents.compactMap ({ try? $0.data(as: MyChallenge.self) })
+            completion(myChallenges)
+        }
+    }
+    
+    /* Add Listener End */
+    
+    
+    
     func createNewUser(user: DBUser) async throws {
         try userDocument(userId: user.userId).setData(from: user, merge: false)
     }

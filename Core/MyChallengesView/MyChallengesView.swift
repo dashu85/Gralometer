@@ -22,7 +22,7 @@ struct MyChallengesView: View {
         }
         .navigationTitle("Meine Challenges")
         .onAppear {
-            viewModel.loadMoreChallenges()
+            viewModel.addListenerForMyChallenges()
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -45,7 +45,7 @@ struct ChallengeRowView: View {
             }
             .onAppear {
                 if challenge == viewModel.myChallenges.last {
-                    viewModel.loadMoreChallenges()
+                    viewModel.getMyChallenges()
                 }
             }
     }

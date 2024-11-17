@@ -14,7 +14,7 @@ final class MyChallengesViewModel: ObservableObject {
     @Published var selectedSortingOrder: SortingOption? = .newToOld
     var lastDocument: DocumentSnapshot? = nil
     
-    private let pageSize = 1  // Number of challenges to fetch per page / Pagination
+    private let pageSize = 20  // Number of challenges to fetch per page / Pagination
     private(set) var isLoading = false // Add a loading flag
     
     enum SortingOption: String, CaseIterable {
@@ -38,38 +38,38 @@ final class MyChallengesViewModel: ObservableObject {
     
     func sortingSelected(option: SortingOption) async throws {
         self.selectedSortingOrder = option
-        getMyChallenges()
+        getInitialChallenges()
     }
     
-    func getMyChallenges() {
-        Task {
-            do {
-                let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
-                
-                // Fetch challenges using the UserManager method
-                let challenges = try await UserManager.shared.getAllMyChallenges(userId: authDataResult.uid)
-                
-                
-                if (selectedSortingOrder?.isNewToOld)! {
-                    self.myChallenges = challenges.sorted { $0.challengeNumber > $1.challengeNumber }
-                } else {
-                    self.myChallenges = challenges.sorted { $0.challengeNumber < $1.challengeNumber }
-                }
-            } catch {
-                print("Error fetching challenges: \(error)")
-            }
-        }
-    }
+//    func getMyChallenges() {
+//        Task {
+//            do {
+//                let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
+//                
+//                // Fetch challenges using the UserManager method
+//                let challenges = try await UserManager.shared.getAllMyChallenges(userId: authDataResult.uid)
+//                
+//                
+//                if (selectedSortingOrder?.isNewToOld)! {
+//                    self.myChallenges = challenges.sorted { $0.challengeNumber > $1.challengeNumber }
+//                } else {
+//                    self.myChallenges = challenges.sorted { $0.challengeNumber < $1.challengeNumber }
+//                }
+//            } catch {
+//                print("Error fetching challenges: \(error)")
+//            }
+//        }
+//    }
     
     /* Pagination Begin */
     
     func getInitialChallenges() {
         lastDocument = nil  // Reset pagination
         myChallenges = []   // Clear existing data
-        loadMoreChallenges()  // Load the first page
+        getMyChallenges()  // Load the first page
     }
     
-    func loadMoreChallenges() {
+    func getMyChallenges() {
         // Prevent duplicate loads if already loading
         guard !isLoading else { return }
         isLoading = true
@@ -81,9 +81,15 @@ final class MyChallengesViewModel: ObservableObject {
                 // Fetch the next page of challenges
                 let (newChallenges, lastDoc) = try await UserManager.shared.getMyChallengesPage(userId: authDataResult.uid, limit: pageSize, lastDocument: lastDocument)
                 
+                if (selectedSortingOrder?.isNewToOld)! {
+                    self.myChallenges = newChallenges.sorted { $0.challengeNumber > $1.challengeNumber }
+                } else {
+                    self.myChallenges = newChallenges.sorted { $0.challengeNumber < $1.challengeNumber }
+                }
+                
                 // Update the list of challenges and last document
                 DispatchQueue.main.async {
-                    self.myChallenges.append(contentsOf: newChallenges)
+//                    self.myChallenges.append(contentsOf: newChallenges)
                     self.lastDocument = lastDoc
                     self.isLoading = false // Reset loading flag
                 }
@@ -100,6 +106,15 @@ final class MyChallengesViewModel: ObservableObject {
     }
     
     /* Pagination End */
+    
+    func addListenerForMyChallenges() {
+        Task {
+            guard let authDataResult = try? AuthenticationManager.shared.getAuthenticatedUser() else { return }
+            UserManager.shared.addListenerForMyChallenges(userId: authDataResult.uid, completion: { [weak self] myChallenges in
+                self?.myChallenges = myChallenges
+            })
+        }
+    }
     
     func removeFromMyChallenges(challengesTakenPartInDocumentId: String) {
         Task {
