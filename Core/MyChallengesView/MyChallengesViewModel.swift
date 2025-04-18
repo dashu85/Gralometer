@@ -94,7 +94,7 @@ final class MyChallengesViewModel: ObservableObject {
                     self.isLoading = false // Reset loading flag
                 }
             } catch {
-                print("Error fetching challenges: \(error)")
+                print("Error fetching challenges_: \(error)")
                 isLoading = false // Reset loading flag on error
             }
         }
