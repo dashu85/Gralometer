@@ -136,10 +136,11 @@ final class UserManager {
     
     /* Add Listener Begin */
     
-    func addListenerForMyChallenges(userId: String, completion: @escaping (_ myChallenges: [MyChallenge]) -> Void) {
-        userChallengesTakenPartInCollectionRef(userId: userId).addSnapshotListener { querySnapshot, error in
+    func addListenerForMyChallenges(userId: String, completion: @escaping (_ myChallenges: [MyChallenge]) -> Void) -> ListenerRegistration {
+        return userChallengesTakenPartInCollectionRef(userId: userId).addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("Error fetching documents: \(error!)")
+                completion([])
                 return
             }
             
@@ -147,6 +148,18 @@ final class UserManager {
             completion(myChallenges)
         }
     }
+    
+//    func addListenerForMyChallenges(userId: String, completion: @escaping (_ myChallenges: [MyChallenge]) -> Void) {
+//        userChallengesTakenPartInCollectionRef(userId: userId).addSnapshotListener { querySnapshot, error in
+//            guard let documents = querySnapshot?.documents else {
+//                print("Error fetching documents: \(error!)")
+//                return
+//            }
+//            
+//            let myChallenges = documents.compactMap ({ try? $0.data(as: MyChallenge.self) })
+//            completion(myChallenges)
+//        }
+//    }
     
     /* Add Listener End */
     

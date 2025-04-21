@@ -16,7 +16,7 @@ struct TabBarView: View {
         case myChallenges, allChallenges, profile
     }
     
-    @State private var selectedTab: Tab = .profile
+    @State private var selectedTab: Tab = .allChallenges
     
     // to upload json
     @StateObject private var viewModel = ChallengesViewModel()

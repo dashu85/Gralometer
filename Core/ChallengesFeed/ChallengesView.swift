@@ -73,7 +73,6 @@ struct ChallengesView: View {
                         }
                     }
                 }
-                
 //                ToolbarItem {
 //                    Button("Add new Challenge", systemImage: "plus") {
 //                        isShowingSheet.toggle()

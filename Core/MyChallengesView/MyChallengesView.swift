@@ -9,28 +9,66 @@ import SwiftUI
 
 struct MyChallengesView: View {
     @StateObject var viewModel = MyChallengesViewModel()
+    @EnvironmentObject private var colorSchemeManager: ColorSchemeManager
     
     var body: some View {
-        ScrollView {
-            ForEach(viewModel.myChallenges, id: \.id.self) { challenge in
-                ChallengeRowView(challenge: challenge, viewModel: viewModel)
-            }
-            
-            if viewModel.isLoading {
-                ProgressView()
-            }
-        }
-        .navigationTitle("Meine Challenges")
-        .onAppear {
-            viewModel.addListenerForMyChallenges()
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                SortingMenu(viewModel: viewModel)
+        NavigationStack{
+            ZStack{
+                LinearGradient(colors: colorSchemeManager.selectedScheme.viewBackgroundGradient, startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
+                
+                ScrollView {
+                    ForEach(viewModel.myChallenges, id: \.id.self) { challenge in
+                        ChallengeRowView(challenge: challenge, viewModel: viewModel)
+                    }
+                    
+                    if viewModel.isLoading {
+                        ProgressView()
+                            .padding()
+                    }
+                }
+                .navigationTitle("Meine Challenges")
+                .onAppear {
+                    // Add listener when the view appears
+                    viewModel.addListenerForMyChallenges()
+                }
+                .onDisappear {
+                    // Remove listener when the view disappears
+                    viewModel.removeListenerForMyChallenges()
+                }
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        SortingMenu(viewModel: viewModel)
+                    }
+                }
             }
         }
     }
 }
+
+//struct MyChallengesView: View {
+//    @StateObject var viewModel = MyChallengesViewModel()
+//    
+//    var body: some View {
+//        ScrollView {
+//            ForEach(viewModel.myChallenges, id: \.id.self) { challenge in
+//                ChallengeRowView(challenge: challenge, viewModel: viewModel)
+//            }
+//            
+//            if viewModel.isLoading {
+//                ProgressView()
+//            }
+//        }
+//        .navigationTitle("Meine Challenges")
+//        .onAppear {
+//            viewModel.addListenerForMyChallenges()
+//        }
+//        .toolbar {
+//            ToolbarItem(placement: .topBarLeading) {
+//                SortingMenu(viewModel: viewModel)
+//            }
+//        }
+//    }
+//}
 
 struct ChallengeRowView: View {
     let challenge: MyChallenge
@@ -70,5 +108,12 @@ struct SortingMenu: View {
 }
 
 #Preview {
-    MyChallengesView()
+    @Previewable @State var path = NavigationPath()
+    let colorSchemeManager = ColorSchemeManager()
+    
+    NavigationStack(path: $path) {
+        MyChallengesView()
+//            .environment(\.colorScheme, .dark)
+            .environment(colorSchemeManager)
+    }
 }

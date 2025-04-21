@@ -32,6 +32,7 @@
 		296CFB502C1E1F66001E5D28 /* UserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296CFB4F2C1E1F66001E5D28 /* UserTest.swift */; };
 		29717E882CAB1E08006A9DBE /* SignInAppleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29717E872CAB1E08006A9DBE /* SignInAppleHelper.swift */; };
 		297890C22C9D803300D350FA /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297890C12C9D803300D350FA /* Errors.swift */; };
+		297E493A2DB67FDF002E979E /* ChallengeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E49392DB67FDF002E979E /* ChallengeDetailViewModel.swift */; };
 		2980CE032C32EF920051E289 /* EditChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2980CE022C32EF920051E289 /* EditChallengeView.swift */; };
 		2980CE0A2C429B490051E289 /* ExtensionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2980CE092C429B490051E289 /* ExtensionBinding.swift */; };
 		299174C82CB6B3E600304472 /* ChallengeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299174C72CB6B3E600304472 /* ChallengeManager.swift */; };
@@ -81,6 +82,7 @@
 		296CFB4F2C1E1F66001E5D28 /* UserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTest.swift; sourceTree = "<group>"; };
 		29717E872CAB1E08006A9DBE /* SignInAppleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInAppleHelper.swift; sourceTree = "<group>"; };
 		297890C12C9D803300D350FA /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		297E49392DB67FDF002E979E /* ChallengeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailViewModel.swift; sourceTree = "<group>"; };
 		2980CE022C32EF920051E289 /* EditChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChallengeView.swift; sourceTree = "<group>"; };
 		2980CE092C429B490051E289 /* ExtensionBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionBinding.swift; sourceTree = "<group>"; };
 		299174C72CB6B3E600304472 /* ChallengeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeManager.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				29F7193D2C60D9B5003AD779 /* ChallengeDetailView.swift */,
+				297E49392DB67FDF002E979E /* ChallengeDetailViewModel.swift */,
 				29C656EF2C1D9DA50049C74C /* ChallengeCardView.swift */,
 				299174D42CB81F1400304472 /* AddChallengeSheet.swift */,
 				2980CE022C32EF920051E289 /* EditChallengeView.swift */,
@@ -369,7 +372,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					29C656D62C1D91EE0049C74C = {
 						CreatedOnToolsVersion = 15.4;
@@ -426,6 +429,7 @@
 				299174D72CB85E6D00304472 /* ChallengeGroupBoxView.swift in Sources */,
 				29682B572CA824000035F251 /* SignInGoogleHelper.swift in Sources */,
 				2920AC8F2CA0977A006A2BE1 /* RegistrationEmailView.swift in Sources */,
+				297E493A2DB67FDF002E979E /* ChallengeDetailViewModel.swift in Sources */,
 				29A708012CD45BAD002154AB /* ChallengeGroupBoxViewBuilder.swift in Sources */,
 				29C656F02C1D9DA50049C74C /* ChallengeCardView.swift in Sources */,
 				29717E882CAB1E08006A9DBE /* SignInAppleHelper.swift in Sources */,
@@ -496,6 +500,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8L4B7AD85F;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -558,6 +563,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 8L4B7AD85F;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -586,7 +592,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Gralometer/Preview Content\"";
-				DEVELOPMENT_TEAM = 8L4B7AD85F;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -626,7 +631,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Gralometer/Preview Content\"";
-				DEVELOPMENT_TEAM = 8L4B7AD85F;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

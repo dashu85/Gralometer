@@ -51,14 +51,14 @@ struct ChallengeCardView: View {
 }
 
 
-//#Preview {
-//    do {
-//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//        let container = try ModelContainer(for: SwiftDataChallenge.self, configurations: config)
-//        
-//        return ChallengeCardView(challenge: SwiftDataChallenge())
-//            .modelContainer(container)
-//    } catch {
-//        return Text(error.localizedDescription)
-//    }
-//}
+#Preview {
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: SwiftDataChallenge.self, configurations: config)
+        
+        return ChallengeCardView(challenge: SwiftDataChallenge())
+            .modelContainer(container)
+    } catch {
+        return Text(error.localizedDescription)
+    }
+}

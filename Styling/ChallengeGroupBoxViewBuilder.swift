@@ -12,11 +12,15 @@ struct ChallengeGroupBoxViewBuilder: View {
     let challengeDocumentId: String
     @State private var challenge: Challenge? = nil
     
-    // only load the content when it is needed!
+    // only load the content when it is needed / you are offline
     var body: some View {
         ZStack {
             if let challenge {
-                ChallengeGroupBoxView(challenge: challenge)
+                NavigationLink {
+                    ChallengeDetailView(challenge: challenge)
+                } label: {
+                    ChallengeGroupBoxView(challenge: challenge)
+                }
             }
         }
         .task {

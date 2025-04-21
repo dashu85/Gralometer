@@ -15,8 +15,8 @@ final class ChallengesViewModel: ObservableObject {
     @Published var selectedSortingOrder: SortingOption? = .newToOld
     private var lastDocument: DocumentSnapshot? = nil
     @Published var numberOfChallenges: Int = 0
-    private let pageSize = 2
-    private(set) var isLoading = false // Add a loading flag
+    private let pageSize = 50
+    private(set) var isLoading = false // TODO: Add a loading flag
     
     func getNumberOfChallenges() async throws {
         numberOfChallenges = try await ChallengeManager.shared.getAllChallengesCount()
@@ -48,11 +48,33 @@ final class ChallengesViewModel: ObservableObject {
         }
     }
     
+//    func sortingSelected(option: SortingOption) async throws {
+//        self.selectedSortingOrder = option
+//        self.challenges = []
+//        self.lastDocument = nil
+//        getChallenges()
+//    }
+
     func sortingSelected(option: SortingOption) async throws {
+        // Update the UI on the main thread
         self.selectedSortingOrder = option
+        
+        // Important: Clear the challenges array completely
         self.challenges = []
         self.lastDocument = nil
-        getChallenges()
+        
+        // Instead of calling getChallenges() which appends to the array,
+        // directly fetch and set the challenges
+        let (newChallenges, lastDoc) = try await ChallengeManager.shared.getAllChallenges(
+            descending: option.isNewToOld,
+            category: selectedCategory?.categoryKey,
+            count: pageSize,
+            lastDocument: nil
+        )
+        
+        // Replace the array rather than appending
+        self.challenges = newChallenges
+        self.lastDocument = lastDoc
     }
     
     enum CategoryOption: String, CaseIterable {
