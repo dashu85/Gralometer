@@ -37,3 +37,20 @@ extension AuthenticationError: CustomStringConvertible {
         }
     }
 }
+
+enum StorageError: Error {
+    case dataNotFound
+    case cannotConvertData
+}
+
+// For each error type return the appropriate description
+extension StorageError: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .dataNotFound:
+            return "No data was found."
+        case .cannotConvertData:
+            return "Image could not be converted to data."
+        }
+    }
+}

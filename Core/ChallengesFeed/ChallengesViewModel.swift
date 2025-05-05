@@ -78,7 +78,7 @@ final class ChallengesViewModel: ObservableObject {
     }
     
     enum CategoryOption: String, CaseIterable {
-        case noFilter = "Kein Filter"
+        case noFilter = "Alle Challenges"
         case knowledge = "Wissen / Denken"
         case sport = "Sport"
         case games = "Geschick / Games"

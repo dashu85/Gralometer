@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import PhotosUI
 import SwiftUI
 
 @MainActor
@@ -22,8 +23,17 @@ final class ChallengeDetailViewModel: ObservableObject {
     @Published var place: String
     @Published var numberOfParticipants: Int
     @Published var description: String
-    @Published var winner: String = "Marcus B" // Hardcoded in your example
-    @Published var challenger: String = "Robert B" // Hardcoded in your example
+    @Published var winner: String = "Marcus B" // TODO: Change name automatically
+    @Published var challenger: String = "Robert B" // TODO: Change name automatically
+    
+    @Published var selectedItems = [PhotosPickerItem]()
+    @Published var selectedImages = [Image]()
+    
+    private let fixedColumn = [
+        GridItem(.fixed(100)),
+        GridItem(.fixed(100)),
+        GridItem(.fixed(100))
+    ]
     
     // MARK: - Format handling
     let dateFormatter: DateFormatter = {
@@ -150,6 +160,29 @@ final class ChallengeDetailViewModel: ObservableObject {
         }
     }
     
+    // MARK: - Photos Section
+    var photosSection: some View {
+        // show Images of challenge
+        LazyVGrid(columns: fixedColumn, spacing: 20) {
+            ForEach(0..<selectedImages.count, id: \.self) { i in
+                self.selectedImages[i]
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(10)
+            }
+        }
+    }
+    
+    
+    // MARK: - Helper Views
+    func sectionTitle(_ title: String) -> some View {
+        Text(title)
+            .font(.headline)
+            .foregroundStyle(colorSchemeManager.selectedScheme.cardViewBackground)
+            .padding(.top, 8)
+    }
+    
     func categoryBadge(text: String) -> some View {
         Text(text)
             .font(.caption)
@@ -161,14 +194,6 @@ final class ChallengeDetailViewModel: ObservableObject {
                     .fill(colorSchemeManager.selectedScheme.cardViewBackground.opacity(0.2))
             )
             .foregroundStyle(colorSchemeManager.selectedScheme.cardViewBackground)
-    }
-    
-    // MARK: - Helper Views
-    func sectionTitle(_ title: String) -> some View {
-        Text(title)
-            .font(.headline)
-            .foregroundStyle(colorSchemeManager.selectedScheme.cardViewBackground)
-            .padding(.top, 8)
     }
     
     func infoItem(icon: String, title: String, value: String) -> some View {

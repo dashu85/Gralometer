@@ -102,7 +102,7 @@ struct SortingMenu: View {
                 }
             }
         } label: {
-            Image(systemName: "arrow.up.arrow.down")
+            Text(viewModel.selectedSortingOrder?.rawValue ?? "FAILED TO LOAD")
         }
     }
 }

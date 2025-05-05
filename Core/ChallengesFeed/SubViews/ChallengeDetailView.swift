@@ -5,6 +5,7 @@
 //  Created by Marcus Benoit on 05.08.24.
 //
 
+import PhotosUI
 import SwiftUI
 import SwiftData
 
@@ -13,6 +14,8 @@ struct ChallengeDetailView: View {
     @StateObject private var viewModel: ChallengeDetailViewModel
     
     @State private var showingEditSheet = false
+    @State var isShowingImagePicker = false
+    
     
     init(challenge: Challenge) {
             _viewModel = StateObject(wrappedValue: ChallengeDetailViewModel(challenge: challenge))
@@ -40,6 +43,15 @@ struct ChallengeDetailView: View {
                     // Participants Section
                     viewModel.participantsSection
                     
+                    viewModel.photosSection
+                    
+                    // add Images to challenge
+                    VStack {
+                        PhotosPicker(selection: $viewModel.selectedItems, matching: .images, photoLibrary: .shared()) {
+                            Text("Fotos hinzufügen!")
+                        }
+                    }
+                    
                     Spacer(minLength: 30)
                 }
                 .padding()
@@ -47,6 +59,17 @@ struct ChallengeDetailView: View {
             .navigationTitle("Challenge Details")
             .navigationBarTitleDisplayMode(.inline)
             .background(viewModel.colorSchemeManager.selectedScheme.backgroundColor)
+            .onChange(of: viewModel.selectedItems) {
+                Task {
+                    viewModel.selectedImages.removeAll()
+                    
+                    for item in viewModel.selectedItems {
+                        if let image = try? await item.loadTransferable(type: Image.self) {
+                            viewModel.selectedImages.append(image)
+                        }
+                    }
+                }
+            }
         } // ZStack
     } // body
 } // ChallengeDetailView

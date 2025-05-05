@@ -16,6 +16,7 @@ struct DBUser: Codable, Hashable {
     let photoUrl: String?
     let dateCreated: Date?
     let hasGral: Bool?
+    let profileImagePath: String?
     
     // auth initializer
     init(auth: AuthDataResultModel) {
@@ -26,6 +27,7 @@ struct DBUser: Codable, Hashable {
         self.photoUrl = auth.photoUrl
         self.dateCreated = Date()
         self.hasGral = false
+        self.profileImagePath = nil
     }
     
     // regular initializer
@@ -36,7 +38,8 @@ struct DBUser: Codable, Hashable {
         email: String? = nil,
         photoUrl: String? = nil,
         dateCreated: Date? = nil,
-        hasGral: Bool? = nil
+        hasGral: Bool? = nil,
+        profileImagePath: String? = nil
     ) {
         self.userId = userId
         self.isAnonymous = isAnonymous
@@ -45,6 +48,7 @@ struct DBUser: Codable, Hashable {
         self.photoUrl = photoUrl
         self.dateCreated = dateCreated
         self.hasGral = hasGral
+        self.profileImagePath = profileImagePath
     }
     
     enum CodingKeys: String, CodingKey {
@@ -55,6 +59,7 @@ struct DBUser: Codable, Hashable {
         case photoUrl = "photo_url"
         case dateCreated = "date_created"
         case hasGral = "has_gral"
+        case profileImagePath = "profile_image_path"
     }
     
     init(from decoder: any Decoder) throws {
@@ -66,6 +71,7 @@ struct DBUser: Codable, Hashable {
         self.photoUrl = try container.decodeIfPresent(String.self, forKey: .photoUrl)
         self.dateCreated = try container.decodeIfPresent(Date.self, forKey: .dateCreated)
         self.hasGral = try container.decodeIfPresent(Bool.self, forKey: .hasGral)
+        self.profileImagePath = try container.decodeIfPresent(String.self, forKey: .profileImagePath)
     }
     
     func encode(to encoder: any Encoder) throws {
@@ -77,6 +83,7 @@ struct DBUser: Codable, Hashable {
         try container.encodeIfPresent(self.photoUrl, forKey: .photoUrl)
         try container.encodeIfPresent(self.dateCreated, forKey: .dateCreated)
         try container.encodeIfPresent(self.hasGral, forKey: .hasGral)
+        try container.encodeIfPresent(self.profileImagePath, forKey: .profileImagePath)
     }
 }
 
@@ -149,21 +156,7 @@ final class UserManager {
         }
     }
     
-//    func addListenerForMyChallenges(userId: String, completion: @escaping (_ myChallenges: [MyChallenge]) -> Void) {
-//        userChallengesTakenPartInCollectionRef(userId: userId).addSnapshotListener { querySnapshot, error in
-//            guard let documents = querySnapshot?.documents else {
-//                print("Error fetching documents: \(error!)")
-//                return
-//            }
-//            
-//            let myChallenges = documents.compactMap ({ try? $0.data(as: MyChallenge.self) })
-//            completion(myChallenges)
-//        }
-//    }
-    
     /* Add Listener End */
-    
-    
     
     func createNewUser(user: DBUser) async throws {
         try userDocument(userId: user.userId).setData(from: user, merge: false)
@@ -177,6 +170,14 @@ final class UserManager {
     func updateGralStatus(userId: String, hasGral: Bool) async throws {
         let data: [String: Any] = [
             DBUser.CodingKeys.hasGral.rawValue : hasGral
+        ]
+        
+        try await userDocument(userId: userId).updateData(data)
+    }
+    
+    func updateUserProfileImage(userId: String, path: String) async throws {
+        let data: [String: Any] = [
+            DBUser.CodingKeys.profileImagePath.rawValue : path
         ]
         
         try await userDocument(userId: userId).updateData(data)

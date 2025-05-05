@@ -48,7 +48,7 @@ struct ChallengesView: View {
                     viewModel.getChallenges()
                 }
             }
-            .navigationTitle("Alle Challenges")
+            .navigationTitle("\(viewModel.selectedCategory?.rawValue ?? "All")")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu(viewModel.selectedSortingOrder?.rawValue ?? "none") {

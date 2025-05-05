@@ -6,19 +6,54 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileViewModel()
     @EnvironmentObject private var colorSchemeManager: ColorSchemeManager
     @Binding var showSignInView: Bool
+    @State private var url: URL? = nil
+    
     // Add a loading state
     @State private var isLoading = true
+    @State private var selectedProfileImage: PhotosPickerItem? = nil
     
     var body: some View {
         ZStack {
             LinearGradient(colors: colorSchemeManager.selectedScheme.viewBackgroundGradient, startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .center) {
+                VStack {
+                    if let url {
+                        AsyncImage(url: url) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 150, height: 150)
+                                .cornerRadius(10)
+                        } placeholder: {
+                            ProgressView()
+                                .frame(width: 150, height:  150)
+                                .foregroundStyle(.black)
+                        }
+                    } else {
+                        Image(systemName: "person.fill")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 150, height: 150)
+                            .cornerRadius(10)
+                    }
+                    
+                    PhotosPicker(selection: $selectedProfileImage, matching: .images) {
+                        if selectedProfileImage == nil {
+                            Text("Profilfoto hinzufügen")
+                            
+                        } else {
+                            Text("Profilfoto ändern")
+                        }
+                    }
+                }
+                
                 HStack {
                     Text("Vereinsfarben:")
                     
@@ -55,7 +90,17 @@ struct ProfileView: View {
             .onAppear {
                 Task {
                     try? await viewModel.loadCurrentUser()
-                    isLoading = false
+//                    isLoading = false
+                    
+                    if let user = viewModel.user, let path = user.profileImagePath {
+                        let url = try? await StorageManager.shared.getURLForImage(path: path)
+                        self.url = url
+                    }
+                }
+            }
+            .onChange(of: selectedProfileImage) {
+                if selectedProfileImage != nil {
+                    viewModel.saveProfilePicture(item: selectedProfileImage!)
                 }
             }
             .navigationTitle("Profil")
@@ -86,8 +131,9 @@ struct ProfileView: View {
 } // ProfileView
 
 #Preview {
-    let colorSchemeManagerPreview = ColorSchemeManager()
+    @Previewable @State var path = NavigationPath()
+    let colorSchemeManager = ColorSchemeManager()
     
     ProfileView(showSignInView: .constant(false))
-        .environment(colorSchemeManagerPreview)
+        .environmentObject(colorSchemeManager)
 }

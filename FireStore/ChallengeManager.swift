@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 struct ChallengeArray: Codable {
     let challenges: [Challenge]
-    let total, takenPartIn, skip: Int
+//    let total, takenPartIn, skip: Int
 }
 
 struct Challenge: Identifiable, Codable, Equatable {
@@ -93,8 +93,6 @@ final class ChallengeManager {
     }
     
     func createNewChallenge(challenge: Challenge) async throws {
-//        try challengeDocument(challengeId: challenge.id).setData(from: challenge, merge: false)
-        
         // Create a new document reference without specifying the document ID
         let documentRef = challengeCollection.document()  // Firestore generates the ID
         
@@ -193,6 +191,8 @@ final class ChallengeManager {
        
     }
 }
+
+// MARK: Extension Query
 
 extension Query {
     // Generic function to fetch all documents - IMPORTANT: make sure how many documents its gonna get!
